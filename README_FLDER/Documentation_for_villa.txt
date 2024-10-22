@@ -1,0 +1,135 @@
+Documentation for the Face Recognition App using Streamlit and TensorFlow
+
+1. Introduction
+This project involves building a Face Recognition Web App using Streamlit and a pre-trained TensorFlow model. The model, which is a transfer learning model based on MobileNetV2, predicts the class of an uploaded image and provides relevant information, such as a description and a reference image.
+
+
+2. App Structure
+The app is built using Streamlit and consists of three primary containers:
+
+Container 1: Displays a welcome banner with a custom background image.
+Container 2: Handles image upload, processing, and recognition.
+Container 3: Displays additional information or a footer.
+
+
+3. Loading the Model and Class Descriptions
+The app loads a pre-trained model (face_40_transfer_learning.keras) and class descriptions from a JSON file:
+
+python code
+model = tf.keras.models.load_model('face_40_transfer_learning.keras')
+
+with open('descriptions.json', 'r', encoding='utf-8') as f:
+    class_descriptions = json.load(f)
+The JSON file (descriptions.json) contains metadata for each class, including the class label, full name, and a brief description.
+
+
+4. Image Preprocessing
+The uploaded image is preprocessed using the following steps:
+
+The image is resized to the target size (100x100 pixels) to match the training image size of the model.
+It is converted to a NumPy array and normalized by dividing by 255.0.
+The image array is expanded to include a batch dimension, as required for model input.
+
+python code
+def preprocess_image(uploaded_image):
+    img = image.load_img(uploaded_image, target_size=(img_height, img_width))
+    img_array = image.img_to_array(img) / 255.0
+    img_array = np.expand_dims(img_array, axis=0)
+    return img_array
+
+
+5. Prediction and Confidence Evaluation
+Once the image is preprocessed, it is passed to the model to get predictions. The prediction is the class with the highest probability, and its confidence score is evaluated. If the confidence is above a specified threshold (e.g., 0.8), additional information is displayed:
+
+The full name and description of the predicted class.
+A reference image in the images directory.
+
+python code
+def predict_and_return_info(img_array):
+    predictions = model.predict(img_array)
+    predicted_class_index = np.argmax(predictions[0])
+    confidence = predictions[0][predicted_class_index]
+    
+    predicted_class_label = class_labels[predicted_class_index]
+    ref_image_path = os.path.join('images', f"{predicted_class_label}_image.jpg")
+    
+    if confidence > 0.8 and os.path.exists(ref_image_path):
+        class_info = class_descriptions[predicted_class_label]
+        return class_info['full_name'], class_info['description'], confidence, ref_image_path
+    elif confidence > 0.8:
+        class_info = class_descriptions[predicted_class_label]
+        return class_info['full_name'], class_info['description'], confidence, None
+    else:
+        return None, None, confidence, None
+
+
+6. User Interface using Streamlit
+Streamlit containers and custom CSS are used to style and structure the web app:
+
+Container 1 - Welcome Banner
+The first container displays a welcome banner with a custom background image and styled text using CSS. The background image (face_rec_image6.jpeg) is displayed in full width.
+
+Container 2 - Image Upload and Prediction
+In the second container:
+
+A message invites users to upload an image.
+Users can upload a JPG, JPEG, or PNG image.
+The uploaded image is displayed, and after preprocessing, it is passed to the prediction function.
+The predicted class, description, and confidence score are displayed, and a reference image is shown.
+
+python code
+uploaded_image = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png"])
+
+if uploaded_image is not None:
+    st.image(uploaded_image, caption='Uploaded Image', use_column_width=True)
+    img_array = preprocess_image(uploaded_image)
+    class_name, description, confidence, ref_image_path = predict_and_return_info(img_array)
+
+    if class_name:
+        st.success(f"Predicted Class: {class_name}")
+        st.info(f"Description: {description}")
+        st.write(f"Confidence: {confidence * 100:.2f}%")
+        
+        if ref_image_path:
+            st.image(ref_image_path, caption=f"Reference image for {class_name}", use_column_width=True)
+        else:
+            st.warning("No reference image available for this class.")
+    else:
+        st.error("No matching class found. Please upload a clearer image or try a different one.")
+
+Container 3 - Footer
+The final container is used to display a simple "thank you" message to the users.
+
+
+7. Custom CSS Styling
+Custom CSS is used to enhance the look and feel of the app. Three containers (container1, container2, and container3) are styled using background colors, font sizes, and padding.
+
+python code
+st.markdown("""
+    <style>
+    .container1 {
+        background-color: #b06679;
+        color: white;
+        text-align: center;
+        padding: 20px;
+        font-size: 30px;
+        border-radius: 10px;
+    }
+    .container2 {
+        background-color: #cedead;
+        padding: 20px;
+        font-size: 18px;
+        border-radius: 10px;
+    }
+    .container3 {
+        background-color: #b08792;
+        padding: 20px;
+        font-size: 18px;
+        border-radius: 10px;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+
+8. Conclusion
+This face recognition web app allows users to upload an image and receive predictions on the identity of the person, along with a description and reference image. By leveraging a pre-trained model with transfer learning, the app performs image classification efficiently, with the additional ability to provide useful context for the prediction.

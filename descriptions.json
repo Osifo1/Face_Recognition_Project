@@ -1,0 +1,26 @@
+{
+    "esosa_face": {
+      "full_name": "Esosa Osunde",
+      "description": "Esosa Osunde is a tall female from Benin City.She works as a senior ML engineer in a prominent tech company and is known for her expertise in AI and machine learning. A devout Christian. In her spare time, Esosa enjoys mentoring young developers and playing Oguruse and Siwe."
+    },
+    "gov_face": {
+      "full_name": "Governor Godwin Obaseki",
+      "description": "Godwin Obaseki, a 62-year-old dark male, hails from Edo and has made his name in the world of politics. He is a seasoned public administrator and a devout Christian. Mr Godwin is married to Betsy Obaseki, a very beautiful Lady and a successful businesswoman. Godwin is known for his no-nonsense approach to governance."
+    },
+    "jima_face": {
+      "full_name": "Jima",
+      "description": "Jima is tall male from Auchi, known for his entrepreneurial skills in the tech industry. He founded a tech startup focusing on data analysis and ML. A Muslim by faith, He is married with 2 children. Jima is in excellent health, with a clean medical record and few police issues. He enjoys running marathons and has a keen interest in community service, frequently organizing tech workshops for women in underprivileged communities."
+    },
+    "mat_face": {
+      "full_name": "Mathew Eruogun",
+      "description": "Mathew Johnson is a tall male originally from Edo. Standing at 6'3\", Mathew is a fitness Data Scientist and health coach who specializes in strength training and nutrition. He is a devoted Christian and married to Lady Sarah, with whom he has one girl. Mathew is in peak physical condition, with a spotless medical history, although he did face a police inquiry ten years ago regarding a misunderstanding in a gym brawl, which was later resolved. He’s passionate about guiding people towards healthier lifestyles and is well-regarded in the fitness community."
+    },
+    "og_face": {
+      "full_name": "Oghogho Esther",
+      "description": "Oghogho is a female from Asoro in Edo state. She is an accomplished Data Scientist and graphic designer with a penchant for combining traditional Edo art with digital media. Oghoghgo is a Christian and loves the NSSPD morning prayers with Pastor Jerry Eze. She stands at 5'10\" and is known for her calm demeanor. Oghogho has no criminal record but does have a medical history of hypertension, which she manages through regular exercise. He enjoys spending time teaching art workshops in local schools."
+    },
+    "osifo_face": {
+      "full_name": "Mr, Osifo Enorense",
+      "description": "Mr Osifo is from Edo State. He is a data scientist and teacher, specializing in machine learning and AI research. Osifo, who stands at 5'7\", he's an Intentional Christian and he is married to Latifa. They have two children, David and Sophia. Osifo's health is generally good, though he has a history of migraines. He has a clean criminal record and is known for his rigorous academic work. In his free time, he enjoys reading and playing chess with his children."
+    }
+  }

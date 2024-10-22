@@ -1,0 +1,69 @@
+General Overview of the Transfer Learning Model using MobileNetV2
+
+1. Introduction
+This project involves the use of Transfer Learning for image classification using MobileNetV2 as a pre-trained model. The dataset is structured into three directories:
+
+train: Contains the training images.
+val: Contains the validation images.
+test: Contains the testing images.
+
+The goal is to classify images into different categories using MobileNetV2 and fine-tuning the model to improve accuracy.
+
+2. Dataset Structure
+The images are divided into three sets:
+
+Train Data: Used to train the model.
+Validation Data: Used to tune hyperparameters and prevent overfitting.
+Test Data: Used to evaluate the final performance of the model.
+The data is loaded using TensorFlow's ImageDataGenerator for preprocessing and real-time data augmentation.
+
+3. Model Architecture
+This project utilizes MobileNetV2, a lightweight convolutional neural network (CNN), pre-trained on the ImageNet dataset. The model is loaded without the top layers (classification layers) and is modified to suit the specific problem.
+
+Base Model:
+
+The MobileNetV2 model is loaded without the top classification layers (include_top=False), and its weights are initialized using the ImageNet dataset.
+The input shape for the images is (100, 100, 3) which is 100x100 pixels and 3 channels (RGB).
+Initially, the base model is frozen to avoid altering the pre-trained weights.
+Custom Layers:
+
+A GlobalAveragePooling2D layer is added to reduce the feature map to a single vector for each feature.
+A Dense layer with 128 units and ReLU activation is added to introduce non-linearity.
+The output layer is a Dense layer with the number of units equal to the number of classes in the dataset, using a softmax activation function for multi-class classification.
+
+4. Model Compilation
+The model is compiled using:
+
+Optimizer: Adam optimizer is used for efficient gradient-based optimization.
+Loss Function: Categorical Cross-Entropy is used as this is a multi-class classification problem.
+Metrics: Accuracy is used as the metric to evaluate the model’s performance.
+
+5. Early Stopping
+An EarlyStopping callback is applied to monitor the validation loss. If the validation loss does not improve for 3 consecutive epochs, training is stopped early to prevent overfitting. The best model weights are restored once early stopping is triggered.
+
+6. Training Process
+Two phases of training are performed:
+
+Initial Training:
+In the first phase, the MobileNetV2 base model is frozen, and only the newly added layers are trained for 20 epochs.
+This is done to train the new layers without modifying the pre-trained layers.
+Fine-Tuning:
+In the second phase, the last 50 layers of the base MobileNetV2 model are unfrozen, allowing for fine-tuning.
+The learning rate is reduced to 1e-5 to prevent drastic updates to the weights of the unfrozen layers.
+The model is further trained for 10 epochs to fine-tune the weights of the pre-trained layers while maintaining the stability of the learned features.
+
+7. Evaluation
+The trained model is evaluated on the test dataset to assess its generalization ability. The model's test accuracy is printed after evaluation.
+
+python code
+test_loss, test_accuracy = model.evaluate(test_data)
+print(f'Test Accuracy: {test_accuracy}')
+
+8. Model Saving
+After fine-tuning, the trained model is saved in the .keras format for future use. This allows for reloading and continuing training or using the model for predictions without retraining.
+
+python code
+model.save('face_40_transfer_learning.keras')
+
+9. Conclusion
+This project demonstrates the power of Transfer Learning by using MobileNetV2 to achieve high accuracy in image classification. By leveraging pre-trained models and fine-tuning, we are able to achieve better performance with fewer training data and computational resources.

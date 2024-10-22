@@ -1,0 +1,53 @@
+README Documentation for Face Recognition Project
+
+1. Project Overview
+This project is a Face Recognition Web Application built using TensorFlow, Streamlit, and Transfer Learning. The core of the project is a deep learning model that classifies faces into predefined categories and provides relevant information about the predicted class. The web app allows users to upload images, processes them in real-time, and displays the prediction along with detailed class descriptions and reference images.
+
+2. Project Structure
+face_40_transfer_learning.keras: This is the pre-trained TensorFlow model used for face classification. It is a fine-tuned version of MobileNetV2, leveraging transfer learning to classify images into specific categories.
+
+descriptions.json: This JSON file contains metadata for each class in the model. For each class, it holds:
+
+full_name: The full name or title of the class.
+description: A brief description of the class.
+This file is referenced in the app to provide additional context about the predicted class.
+
+villa.py: This is the main Streamlit app that provides the user interface. Key features include:
+
+Image Upload: Users can upload an image in JPG, JPEG, or PNG format.
+Image Processing: Uploaded images are preprocessed and passed to the model for prediction.
+Prediction Display: The predicted class is displayed along with its confidence score, description from the descriptions.json file, and a reference image.
+UI Containers: Custom styling and layout are implemented using CSS and Streamlit containers to provide a visually appealing user experience.
+images/: This directory holds reference images for each class. When the model predicts a class, a corresponding reference image is displayed for comparison. The images are named based on the class labels, following the pattern: class_label_image.jpg.
+
+3. How It Works
+Model Loading and Preprocessing: The pre-trained TensorFlow model (face_40_transfer_learning.keras) is loaded, and the class descriptions are imported from the descriptions.json file. The uploaded image is resized to 100x100 pixels and normalized to match the input size and format required by the model.
+
+Prediction Process: The preprocessed image is fed into the model, which outputs a set of probabilities for each class. The class with the highest probability is selected as the prediction, and if the confidence is above a set threshold (0.8), the class name and description are retrieved from the descriptions.json file.
+
+Displaying Results: The predicted class and its description are displayed to the user, along with the confidence score. If a corresponding reference image exists in the images directory, it is shown for visual comparison.
+
+4. Main Features
+Transfer Learning: The model is based on MobileNetV2, a lightweight architecture, fine-tuned for face recognition. It offers high accuracy with fewer computational resources due to transfer learning.
+
+Streamlit Integration: The app is fully interactive, allowing users to upload images, view predictions in real time, and explore detailed information about the recognized class.
+
+Custom Styling: Streamlit containers are styled with CSS to enhance the user interface, creating a visually appealing and intuitive app experience.
+
+Class Descriptions: The app integrates a JSON-based description system, providing detailed information about each predicted class.
+
+5. How to Run the App
+To run the app, ensure you have the required dependencies installed (TensorFlow, Streamlit, etc.), and execute the following command:
+
+bash code
+streamlit run villa.py
+
+Ensure that the following files and directories are in place:
+
+face_40_transfer_learning.keras (the pre-trained model)
+descriptions.json (class descriptions)
+images/ (directory containing reference images)
+
+
+6. Conclusion
+This project showcases the integration of deep learning and web technologies for real-time face recognition. The app leverages the power of transfer learning and a user-friendly interface to deliver a seamless image recognition experience with detailed class information.
